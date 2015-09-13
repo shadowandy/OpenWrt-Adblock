@@ -14,3 +14,7 @@ TL-MR3020 | make image PROFILE=TLMR3020 PACKAGES="nginx libopenssl -luci -ppp-mo
 TL-WR703N | make image PROFILE=TLWR703N PACKAGES="nginx libopenssl -luci -ppp-mod-pppoe -ppp -kmod-pppoe -kmod-pppox -kmod-ppp" FILES=~/OpenWrt-Adblock/files/
 
 *Do remember to remove the /etc/shadow if you are compiling your own OpenWrt image.*
+
+## Issues
+
+The NGINX package does not support ssl_certificate and ssl_certificate_key directive so it will not be able to correctly establish SSL communication for serving empty_gif and 204.
