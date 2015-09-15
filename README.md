@@ -18,3 +18,8 @@ TL-WR703N | make image PROFILE=TLWR703N PACKAGES="nginx libopenssl -luci -ppp-mo
 ## Issues
 
 The NGINX package does not support ssl_certificate and ssl_certificate_key directive so it will not be able to correctly establish SSL communication for serving empty_gif and 204.
+
+## To do
+- Remove wireless driver and associated kmod to free up storage space for PPTP server and luci (selected)
+- Remove telnetd (?)
+- Hardcode 8.8.8.8 and 4.4.4.4 as DNS server to avoid DNS loops
