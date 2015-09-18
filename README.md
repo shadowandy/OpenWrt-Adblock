@@ -25,3 +25,18 @@ The NGINX package does not support ssl_certificate and ssl_certificate_key direc
 - Remove wireless driver and associated kmod to free up storage space for PPTP server and luci (selected)
 - Remove telnetd (?)
 - Hardcode 8.8.8.8 and 4.4.4.4 as DNS server to avoid DNS loops
+
+```
+server.modules += ( "mod_rewrite", "mod_magnet" )
+
+url.rewrite-once = ( 
+    ".+?(png|gif|jpe?g)$" => "/empty.gif",
+    "!.+?empty.gif$" => /204
+)
+$HTTP["url"] == "/204" {
+    magnet.attract-raw-url-to = ( "/etc/204.lua" )
+}
+
+##### 204.lua #####
+return 204
+```
