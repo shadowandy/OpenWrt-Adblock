@@ -11,10 +11,11 @@ start() {
 		sleep 1
 		[ $i == $timeout ] && exit 1
 		if [ $( cat /sys/class/net/eth0/operstate ) == "up" ] ; then
+			sleep 8
 			if ! grep -q "adblock" /etc/crontabs/root
 			then
-        		# Turn on
-        		sh /etc/adblock.sh -t > /dev/null 2>&1
+        			# Turn on
+        			sh /etc/adblock.sh -t > /dev/null 2>&1
    			fi
 			sh /etc/adblock.sh > /dev/null 2>&1
 			exit 1
@@ -26,7 +27,7 @@ stop() {
 	echo "${initscript}: stopping adblock..."
 	if grep -q "adblock" /etc/crontabs/root
 	then
-        # Turn off
-        sh /etc/adblock.sh -t > /dev/null 2>&1
-    fi
+        	# Turn off
+        	sh /etc/adblock.sh -t > /dev/null 2>&1
+    	fi
 }

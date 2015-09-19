@@ -109,7 +109,6 @@ config rule
         option proto 'tcp'                      
         option dest_port '443'                   
         option name 'HTTPS'                      
-                              
                                                 
 config rule                                     
         option target 'ACCEPT'                  
