@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ "$ACTION" = "ifup" ];
+	then if [ "$INTERFACE" = "wan" ]; then
+		logger -t wanup "Starting /etc/wanup.sh due to $ACTION of $INTERFACE ($DEVICE)"
+		if [ -e "/etc/wanup.sh" ]; then
+			sh /etc/wanup.sh > /dev/null 2>&1
+		fi
+	fi
+fi

@@ -28,7 +28,7 @@ ENDPOINT_IP4=$( ifconfig eth0 | grep "inet addr" | cut -d ':' -f 2 | cut -d ' ' 
 ENDPOINT_IP6="::"
 
 #Change the cron command to what is comfortable, or leave as is
-CRON="0 4 * * 0,3 sh /etc/adblock.sh"
+CRON="0 4 * * * sh /etc/adblock.sh"
 
 #### END CONFIG ####
 
