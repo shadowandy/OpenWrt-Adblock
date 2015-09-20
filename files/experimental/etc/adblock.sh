@@ -8,7 +8,7 @@
 ONLY_WIRELESS="N"
 
 # IPv6 support? Y/N
-IPV6="N"
+IPV6="Y"
 
 # Need SSL websites?
 SSL="N"
@@ -25,7 +25,8 @@ TRANS="N"
 # Redirect endpoint
 #ENDPOINT_IP4="0.0.0.0"
 ENDPOINT_IP4=$( ifconfig eth0 | grep "inet addr" | cut -d ':' -f 2 | cut -d ' ' -f 1 )
-ENDPOINT_IP6="::"
+#ENDPOINT_IP6="::"
+ENDPOINT_IP6=$( ifconfig eth0 | grep "inet6 addr" | cut -d ':' -f 2-7 | cut -d '/' -f 1 | cut -d ' ' -f 2 )
 
 #Change the cron command to what is comfortable, or leave as is
 CRON="0 4 * * * sh /etc/adblock.sh"
