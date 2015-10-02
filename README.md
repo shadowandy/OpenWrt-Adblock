@@ -20,8 +20,8 @@ Device | Command
 :-- | :--
 TL-MR3020 (VPN) | ```make image PROFILE=TLMR3020 PACKAGES="lighttpd lighttpd-mod-rewrite lighttpd-mod-redirect lighttpd-mod-fastcgi php5-fastcgi libopenssl pptpd kmod-mppe wget -wget-nossl -luci -ppp-mod-pppoe -ppp -kmod-pppoe -kmod-pppox -kmod-ppp -kmod-ath -kmod-ath9k -kmod-ath9k-common" FILES=~/GitHub/OpenWrt-Adblock/files/experimental/```
 TL-WR703N (VPN) | ```make image PROFILE=TLWR703 PACKAGES="lighttpd lighttpd-mod-rewrite lighttpd-mod-redirect libopenssl pptpd kmod-mppe wget +lua +liblua -wget-nossl -luci -ppp-mod-pppoe -ppp -kmod-pppoe -kmod-pppox -kmod-ppp -kmod-ath -kmod-ath9k -kmod-ath9k-common" FILES=~/GitHub/OpenWrt-Adblock/files/experimental/```
-TL-MR3020 | ```make image PROFILE=TLMR3020 PACKAGES="nginx wget -wget-nossl -luci -ppp-mod-pppoe ppp -kmod-pppoe -kmod-pppox -kmod-ppp -kmod-ath -kmod-ath9k -kmod-ath9k-common" FILES=~/GitHub/OpenWrt-Adblock/files/experimental/```
-TL-WR703N | ```make image PROFILE=TLWR703 PACKAGES="nginx wget -wget-nossl -luci -ppp-mod-pppoe ppp -kmod-pppoe -kmod-pppox -kmod-ppp -kmod-ath -kmod-ath9k -kmod-ath9k-common" FILES=~/GitHub/OpenWrt-Adblock/files/experimental/```
+TL-MR3020 | ```make image PROFILE=TLMR3020 PACKAGES="nginx wget ddns-scripts -wget-nossl -luci -ppp-mod-pppoe ppp -kmod-pppoe -kmod-pppox -kmod-ppp -kmod-ath -kmod-ath9k -kmod-ath9k-common" FILES=~/GitHub/OpenWrt-Adblock/files/experimental/```
+TL-WR703N | ```make image PROFILE=TLWR703 PACKAGES="nginx wget ddns-scripts -wget-nossl -luci -ppp-mod-pppoe ppp -kmod-pppoe -kmod-pppox -kmod-ppp -kmod-ath -kmod-ath9k -kmod-ath9k-common" FILES=~/GitHub/OpenWrt-Adblock/files/experimental/```
 
 *Do remember to remove the /etc/shadow if you are compiling your own OpenWrt image.*
 
