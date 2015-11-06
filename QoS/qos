@@ -1,0 +1,77 @@
+##############################################
+# A script to emulate adverse WAN conditions #
+# like bandwidth, latency, packet loss.      #
+#                                            #
+# Edit the param BW, LATENCY, LOSS for the   #
+# interfaces WAN, WIFI                       #
+#                                            #
+# Author: shadowandy.sg[at]gmail.com         #
+# Usage: /etc/init.d/qos start|stop|restart  #
+#      : /etc/init.d/qos enable|disable      #
+##############################################
+
+[ -f /etc/init.d/qos ] && [ $(/etc/init.d/qos enabled && echo on) ] && /etc/init.d/qos disable
+{
+cat <<'ENDF' > /etc/init.d/qos
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006-2011 OpenWrt.org
+
+START=99
+END=99
+
+# The bandwidth to simulate, here about 56kilobit per second. This is layer 2 bandwidth, so TCP/UDP and IP overhead will apply                                
+BW="56kbps"                                                                                                                                                   
+# _Half_ the latency that we aim for. Since this applies to both the WAN port and Wi-Fi, the delay is applied twice, so this actually puts it at around 120+ms
+LATENCY="500ms"                                                        
+# Chance of packet loss. Also applied to both interfaces, so it is 1%.
+LOSS="15%"                           
+# The device name of your wifi device.
+WIFI="wlan0"                
+# The device name of your wan port
+WAN="br-lan"
+
+start() {
+        echo "${initscript}: Starting QoS..."
+        
+        sleep 60
+        
+        # Delete existing traffic control rules
+        tc qdisc del root dev $WIFI
+        tc qdisc del root dev $WAN
+
+        # Create a basic tc rule for wifi
+        tc qdisc add dev $WIFI root handle 1: htb default 12
+        # First apply the rate limiting through a HTC scheduler
+        tc class add dev $WIFI parent 1: classid 1:1 htb rate 10mbit
+        tc class add dev $WIFI parent 1:1 classid 1:12 htb rate $BW ceil $BW
+        # Then apply the netem scheduler which handles delay and packet loss
+        # delay TIME [ JITTER [ CORRELATION ]]]
+        # LOSS := loss { random PERCENT [ CORRELATION ]  |
+        tc qdisc add dev $WIFI parent 1:12 netem delay $LATENCY 0ms 25% loss $LOSS
+        
+        tc class add dev $WIFI parent 1:1 classid 1:13 htb rate 10mbit ceil 10mbit
+        tc qdisc add dev $WIFI parent 1:13 netem delay 0ms 0ms 25% loss 0%
+        tc filter add dev $WIFI protocol ip parent 1: prio 1 u32 match ip dport 22 0xffff flowid 1:13
+        tc filter add dev $WIFI protocol ip parent 1: prio 2 u32 match ip sport 22 0xffff flowid 1:13
+
+        # The same for WAN
+        tc qdisc add dev $WAN root handle 2: htb default 12
+        tc class add dev $WAN parent 2: classid 2:1 htb rate 10mbit
+        tc class add dev $WAN parent 2:1 classid 2:12 htb rate $BW ceil $BW
+        tc qdisc add dev $WAN parent 2:12 netem delay $LATENCY 0ms 25% loss $LOSS
+        
+        tc class add dev $WAN parent 2:1 classid 2:13 htb rate 10mbit ceil 10mbit
+        tc qdisc add dev $WAN parent 2:13 netem delay 0ms 0ms 25% loss 0%
+        tc filter add dev $WAN protocol ip parent 2: prio 1 u32 match ip dport 22 0xffff flowid 2:13
+        tc filter add dev $WAN protocol ip parent 2: prio 2 u32 match ip sport 22 0xffff flowid 2:13
+}
+stop() {
+	echo "${initscript}: Stopping QoS..."
+	# Delete existing traffic control rules
+	tc qdisc del root dev $WIFI
+	tc qdisc del root dev $WAN     
+}
+ENDF
+}
+
+[ -f /etc/init.d/qos ] && chmod a+x /etc/init.d/qos
