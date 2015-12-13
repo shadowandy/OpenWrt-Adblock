@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ "$ACTION" = "ifup" ];
+	then if [ "$INTERFACE" = "wan" ]; then
+		logger -t Adblock "Starting Adblock due to $ACTION of $INTERFACE ($DEVICE)"
+		sh /etc/adblock.sh
+	fi
+fi

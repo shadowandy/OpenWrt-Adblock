@@ -12,7 +12,8 @@ Have created a OpenWrt init script (/etc/init.d/adblock) to start/stop the adblo
 Device | Command
 :-- | :--
 TL-MR3020 | ```make image PROFILE=TLMR3020 PACKAGES="nginx libopenssl -luci -ppp-mod-pppoe -ppp -kmod-pppoe -kmod-pppox -kmod-ppp" FILES=~/OpenWrt-Adblock/files/```
-TL-WR703N | ```make image PROFILE=TLWR703 PACKAGES="nginx libopenssl -luci -ppp-mod-pppoe -ppp -kmod-pppoe -kmod-pppox -kmod-ppp" FILES=~/OpenWrt-Adblock/files/```
+TL-WR703N | ```make image PROFILE=TLWR703 PACKAGES="nginx libopenssl -luci -ppp-mod-pppoe -ppp -kmod-pppoe -kmod-pppox -kmod-ppp -wpad-mini" FILES=~/OpenWrt-Adblock/files/```
+GL-INET-6416A | ```make image PROFILE=GLINET PACKAGES="nginx libopenssl -luci -ppp-mod-pppoe -ppp -kmod-pppoe -kmod-pppox -kmod-ppp -wpad-mini -wget-nossl wget" FILES=~/Github/OpenWrt-Adblock/files/experimental```
 
 **Experimental**
 
